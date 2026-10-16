@@ -1,0 +1,362 @@
+/* ---------- 확장 헤더 안의 즐겨찾기 배지 ---------- */
+.stfav-toggle {
+    justify-content: flex-start !important;
+    gap: 6px;
+}
+.stfav-toggle > .inline-drawer-icon {
+    margin-left: auto;
+}
+.stfav-toggle > .stfav-ctrls ~ .inline-drawer-icon {
+    margin-left: 6px;
+}
+.stfav-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex: 0 0 auto;
+}
+.stfav-badge.stfav-empty {
+    display: none;
+}
+.stfav-star {
+    font-size: 0.95em;
+    filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.5));
+}
+
+/* ---------- 편집 모드: 칸 전체를 잡고 끌어서 이동 ---------- */
+.stfav-editing .stfav-toggle,
+.stfav-editing .stfav-group-header {
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+}
+.stfav-ctrls {
+    margin-left: auto;
+    display: inline-flex;
+    gap: 4px;
+}
+.stfav-btn,
+.stfav-gbtn {
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 6px;
+    opacity: 0.85;
+}
+.stfav-btn:hover,
+.stfav-gbtn:hover {
+    opacity: 1;
+    background: rgba(128, 128, 128, 0.25);
+}
+/* 드래그하기 쉽게 편집 중에는 펼쳐진 확장을 접어서 보여줌 */
+.stfav-editing #extensions_settings .inline-drawer-content,
+.stfav-editing #extensions_settings2 .inline-drawer-content {
+    display: none !important;
+}
+.stfav-dragging {
+    opacity: 0.55;
+    outline: 2px dashed var(--SmartThemeQuoteColor, #888);
+    border-radius: 10px;
+}
+.stfav-noselect,
+.stfav-noselect * {
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    cursor: grabbing !important;
+}
+.stfav-drop-target > .stfav-group-header {
+    background: rgba(128, 128, 128, 0.3);
+    outline: 2px dashed var(--SmartThemeQuoteColor, #8cf);
+    outline-offset: -2px;
+}
+#stfav_toggle_btn.stfav-active {
+    outline: 2px solid var(--SmartThemeQuoteColor, #8cf);
+}
+
+/* ---------- 그룹 (옵시디언 미니멀 폴더 느낌: > 아이콘 + 이름) ---------- */
+.stfav-group {
+    margin: 2px 0;
+}
+.stfav-group-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 8px;
+    cursor: pointer;
+    border-radius: 6px;
+    background: transparent;
+    border: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+.stfav-group-header:hover {
+    background: rgba(128, 128, 128, 0.15);
+}
+.stfav-group-chevron {
+    flex: 0 0 auto;
+    width: 1em;
+    text-align: center;
+    font-size: 0.75em;
+    opacity: 0.7;
+    transform: rotate(90deg); /* 펼쳐진 상태: ∨ */
+    transition: transform 0.15s;
+}
+.stfav-collapsed > .stfav-group-header .stfav-group-chevron {
+    transform: rotate(0deg); /* 접힌 상태: > */
+}
+.stfav-group-name {
+    font-weight: bold;
+}
+.stfav-group-count {
+    opacity: 0.7;
+    font-size: 0.85em;
+}
+.stfav-gctrls {
+    display: none;
+    gap: 4px;
+}
+.stfav-editing .stfav-gctrls {
+    display: inline-flex;
+    margin-left: auto;
+}
+.stfav-group-body {
+    margin: 2px 0 2px 10px;
+    padding-left: 8px;
+    border-left: 1px solid rgba(128, 128, 128, 0.35); /* 얇은 들여쓰기 가이드선 */
+}
+.stfav-collapsed > .stfav-group-body {
+    display: none;
+}
+.stfav-editing .stfav-group-body {
+    min-height: 30px;
+    padding-bottom: 14px;
+}
+.stfav-editing .stfav-group-body:empty::before {
+    content: '여기로 끌어다 놓으세요';
+    display: block;
+    opacity: 0.55;
+    font-size: 0.85em;
+    padding: 6px 4px;
+}
+
+/* ---------- 팝업 (아이콘/색상, 그룹 이름 등) ---------- */
+.stfav-overlay {
+    position: fixed;
+    inset: 0;
+    height: 100vh;
+    height: 100dvh; /* 모바일 주소창을 뺀 실제 보이는 높이 */
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 99999;
+    display: flex;
+    padding: 12px;
+    box-sizing: border-box;
+    overflow-y: auto; /* 팝업이 더 크면 오버레이가 스크롤됨 (위쪽이 잘리지 않음) */
+    overscroll-behavior: contain;
+}
+.stfav-modal {
+    background: var(--SmartThemeBlurTintColor, #222);
+    color: var(--SmartThemeBodyColor, #ddd);
+    border: 1px solid var(--SmartThemeBorderColor, #555);
+    border-radius: 12px;
+    padding: 16px;
+    width: min(420px, 100%);
+    margin: auto; /* 세로 가운데 정렬 + 넘칠 때도 위가 잘리지 않음 */
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.stfav-modal h3 {
+    margin: 0;
+}
+.stfav-name {
+    opacity: 0.8;
+    font-weight: bold;
+}
+.stfav-hint {
+    font-size: 0.8em;
+    opacity: 0.7;
+}
+.stfav-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+.stfav-preset {
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--SmartThemeBorderColor, #555);
+}
+.stfav-preset:hover {
+    background: rgba(128, 128, 128, 0.3);
+}
+.stfav-color-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+.stfav-preview {
+    font-size: 1.4em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* 버튼 줄은 항상 가로 배치 (SillyTavern의 .menu_button 폭 설정을 덮어씀) */
+.stfav-actions,
+#stfav_settings .stfav-btn-row {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: stretch;
+    gap: 8px;
+}
+.stfav-actions {
+    justify-content: flex-end;
+    margin-top: 6px;
+}
+.stfav-actions > .menu_button,
+#stfav_settings .stfav-btn-row > .menu_button {
+    width: auto !important;
+    flex: 1 1 0;
+    min-width: 0;
+    margin: 0;
+    white-space: normal;
+    word-break: keep-all;
+    text-align: center;
+}
+
+/* ---------- 설정 드로어 ---------- */
+#stfav_settings .stfav-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 6px 0;
+}
+
+/* ================================================================== */
+/* Regex 스크립트 그룹                                                 */
+/* ================================================================== */
+#stfav_regex_edit_btn.stfav-active {
+    outline: 2px solid var(--SmartThemeQuoteColor, #8cf);
+}
+/* 각 목록 위의 '그룹 추가' 줄 (편집 모드에서만 보임) */
+.stfav-rbar {
+    display: none;
+    margin-top: 6px;
+}
+.stfav-r-editing .stfav-rbar {
+    display: flex;
+}
+
+.stfav-rgroup {
+    margin: 2px 0;
+}
+.stfav-rgroup-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 8px;
+    cursor: pointer;
+    border-radius: 6px;
+    background: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+}
+.stfav-rgroup-header:hover {
+    background: rgba(128, 128, 128, 0.15);
+}
+.stfav-rgroup-chevron {
+    flex: 0 0 auto;
+    width: 1em;
+    text-align: center;
+    font-size: 0.75em;
+    opacity: 0.7;
+    transform: rotate(90deg); /* 펼친 상태 */
+    transition: transform 0.15s;
+}
+.stfav-rcollapsed > .stfav-rgroup-header .stfav-rgroup-chevron {
+    transform: rotate(0deg); /* 접힌 상태 */
+}
+.stfav-rgroup-name {
+    font-weight: bold;
+}
+.stfav-rgroup-count {
+    opacity: 0.7;
+    font-size: 0.85em;
+}
+.stfav-rgctrls {
+    display: none;
+    gap: 4px;
+}
+.stfav-r-editing .stfav-rgctrls {
+    display: inline-flex;
+}
+.stfav-rgtoggle {
+    margin-left: auto;
+    flex: 0 0 auto;
+    padding: 2px 4px;
+    cursor: pointer;
+}
+.stfav-rgtoggle-mixed {
+    opacity: 0.6;
+}
+.stfav-rgbtn {
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 6px;
+    opacity: 0.85;
+}
+.stfav-rgbtn:hover {
+    opacity: 1;
+    background: rgba(128, 128, 128, 0.25);
+}
+.stfav-rgroup-body {
+    display: flex;
+    flex-direction: column;
+    margin: 2px 0 2px 10px;
+    padding-left: 8px;
+    border-left: 1px solid rgba(128, 128, 128, 0.35);
+}
+.stfav-rcollapsed > .stfav-rgroup-body {
+    display: none;
+}
+.stfav-r-editing .stfav-rgroup-body {
+    min-height: 30px;
+    padding-bottom: 14px;
+}
+.stfav-r-editing .stfav-rgroup-body:empty::before {
+    content: '여기로 끌어다 놓으세요';
+    display: block;
+    opacity: 0.55;
+    font-size: 0.85em;
+    padding: 6px 4px;
+}
+
+/* 편집 중: 칸 전체를 잡고 끌기 */
+.stfav-r-editing .stfav-rgroup-header,
+.stfav-r-editing .regex-script-container .regex-script-label {
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+}
+.stfav-rdragging {
+    opacity: 0.55;
+    outline: 2px dashed var(--SmartThemeQuoteColor, #888);
+    border-radius: 10px;
+}
+.stfav-rdrop-target > .stfav-rgroup-header {
+    background: rgba(128, 128, 128, 0.3);
+    outline: 2px dashed var(--SmartThemeQuoteColor, #8cf);
+    outline-offset: -2px;
+}
+/* 그룹이 있거나 편집 중일 땐 실리태번 기본 정렬(☰)이 꺼져 있으니 흐리게 */
+.stfav-rlocked .regex-script-label .drag-handle {
+    opacity: 0.25;
+    pointer-events: none;
+}
